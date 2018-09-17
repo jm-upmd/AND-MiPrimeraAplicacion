@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             valor = valor == 1 ? valor : valor / 2;
             mCalculo.setText(String.valueOf(valor));
             mBotonDuplicar.setEnabled(valor <= Integer.MAX_VALUE);
+            mBotonDividir.setEnabled(valor > 1);
 
         } catch (NumberFormatException e) {
             Log.e("MiAplicacion", "Error al convertir el valor en un entero", e);
@@ -73,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
             // Si el proximo duplicado excede en rango de int deshabilita el boton duplicar
             mBotonDuplicar.setEnabled(valor*2.0 <= Integer.MAX_VALUE);
 
+            // Si el valor actual es mayor que uno habilita boton dividir
+            mBotonDividir.setEnabled(valor > 1);
+
+
 
         } catch (NumberFormatException e) {
             Log.e("MiAplicacion", "Error al convertir el valor en un entero", e);
@@ -82,5 +87,6 @@ public class MainActivity extends AppCompatActivity {
     void resetear() {
         mCalculo.setText("1");
         mBotonDuplicar.setEnabled(true);
+        mBotonDividir.setEnabled(false);
     }
 }
