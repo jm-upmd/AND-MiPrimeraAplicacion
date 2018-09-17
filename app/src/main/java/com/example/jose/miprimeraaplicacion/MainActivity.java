@@ -8,10 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
-    // Atributos de clase
     TextView mCalculo;
-
+    Button mBotonDuplicar;
+    Button mBotonDividir;
+    Button mbotonLimpiar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,28 +20,28 @@ public class MainActivity extends AppCompatActivity {
         // Creación de referencias a los views
 
         mCalculo = findViewById(R.id.txvValorCalculo);
-        Button botonDuplicar = findViewById(R.id.btMultiplica);
-        Button botonDividir = findViewById(R.id.btDivide);
-        Button botonLimpiar = findViewById(R.id.btLimpiar);
+        mBotonDuplicar = findViewById(R.id.btMultiplica);
+        mBotonDividir = findViewById(R.id.btDivide);
+        mbotonLimpiar = findViewById(R.id.btLimpiar);
 
         // Implementación de listerners para recoger eventos sobre los
         // views anteriores
 
-        botonDuplicar.setOnClickListener(new View.OnClickListener() {
+        mBotonDuplicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 duplicar();
             }
         });
 
-        botonDividir.setOnClickListener(new View.OnClickListener() {
+        mBotonDividir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dividir();
             }
         });
 
-        botonLimpiar.setOnClickListener(new View.OnClickListener() {
+        mbotonLimpiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetear();
@@ -54,26 +54,33 @@ public class MainActivity extends AppCompatActivity {
         try {
             valor = Integer.parseInt(mCalculo.getText().toString());
             // Si valor es 1 lo deja tal cual
-            valor = valor == 1 ? valor : valor/2;
+            valor = valor == 1 ? valor : valor / 2;
             mCalculo.setText(String.valueOf(valor));
-        } catch (NumberFormatException e){
-            Log.e("MiAplicacion", "Error al convertir el valor en un entero",e);
+            mBotonDuplicar.setEnabled(valor <= Integer.MAX_VALUE);
+
+        } catch (NumberFormatException e) {
+            Log.e("MiAplicacion", "Error al convertir el valor en un entero", e);
         }
     }
 
-    void duplicar(){
+    void duplicar() {
         int valor;
         try {
             valor = Integer.parseInt(mCalculo.getText().toString());
             valor *= 2;
             mCalculo.setText(String.valueOf(valor));
-        } catch (NumberFormatException e){
-            Log.e("MiAplicacion", "Error al convertir el valor en un entero",e);
-        }
 
+            // Si el proximo duplicado excede en rango de int deshabilita el boton duplicar
+            mBotonDuplicar.setEnabled(valor*2.0 <= Integer.MAX_VALUE);
+
+
+        } catch (NumberFormatException e) {
+            Log.e("MiAplicacion", "Error al convertir el valor en un entero", e);
+        }
     }
 
-    void resetear(){
+    void resetear() {
         mCalculo.setText("1");
+        mBotonDuplicar.setEnabled(true);
     }
 }
