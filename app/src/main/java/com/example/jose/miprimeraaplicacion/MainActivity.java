@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout_main);
 
         // Creación de referencias a los views
 
@@ -33,14 +33,12 @@ public class MainActivity extends AppCompatActivity {
                 duplicar();
             }
         });
-
         mBotonDividir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dividir();
             }
         });
-
         mbotonLimpiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
