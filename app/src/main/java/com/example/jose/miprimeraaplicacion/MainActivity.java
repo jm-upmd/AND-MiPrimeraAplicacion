@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Carga el recurso layout con todos los componentes del interface de la activity.
         setContentView(R.layout.layout_main);
 
         // Creación de referencias a los views
@@ -51,11 +53,21 @@ public class MainActivity extends AppCompatActivity {
         int valor;
         try {
             valor = Integer.parseInt(mCalculo.getText().toString());
-            // Si valor es 1 lo deja tal cual
-            valor = valor == 1 ? valor : valor / 2;
-            mCalculo.setText(String.valueOf(valor));
-            mBotonDuplicar.setEnabled(valor <= Integer.MAX_VALUE);
+
+            if (valor  == 1) return; // No hacemos nada si el contador es 1.
+
+
+            // Actualiza contador con su valor dividico entre 2.
+
+            mCalculo.setText(String.valueOf(valor/=2));
+
+            // Deshabilita botón si después de dividir el contador es 1.
             mBotonDividir.setEnabled(valor > 1);
+
+            // Puede que el botón multiplicar estuviera deshabilitado.
+            // Me aseguro de habilitarlo nuevamente
+            if(!mBotonDuplicar.isEnabled())
+                mBotonDuplicar.setEnabled(true);
 
         } catch (NumberFormatException e) {
             Log.e("MiAplicacion", "Error al convertir el valor en un entero", e);
@@ -66,16 +78,22 @@ public class MainActivity extends AppCompatActivity {
         int valor;
         try {
             valor = Integer.parseInt(mCalculo.getText().toString());
-            valor *= 2;
-            mCalculo.setText(String.valueOf(valor));
 
-            // Si el proximo duplicado excede en rango de int deshabilita el boton duplicar
-            mBotonDuplicar.setEnabled(valor*2.0 <= Integer.MAX_VALUE);
+            // Actualiza contador con su valor duplicado
 
-            // Si el valor actual es mayor que uno habilita boton dividir
-            mBotonDividir.setEnabled(valor > 1);
+            mCalculo.setText(String.valueOf(valor*=2));
 
+            // Si el próximo duplicado del contador excediera el rango del tipo int,
+            // entonces deshabilita el boton duplicar.
+            // Ojo: lo multiplicamos con un 2 de tipo long por si se pasa de rango de int
+            // la expresión valor*2L devuelva el valor en un long.
 
+            mBotonDuplicar.setEnabled(valor*2L <= Integer.MAX_VALUE);
+
+            // Si el botón dividir estaba deshabilidato lo habilita.
+
+            if(!mBotonDividir.isEnabled())
+                mBotonDividir.setEnabled(true);
 
         } catch (NumberFormatException e) {
             Log.e("MiAplicacion", "Error al convertir el valor en un entero", e);
